@@ -4,6 +4,7 @@ import { useState } from "react";
 import { loginWithEmail, registerWithEmail, loginWithGoogle } from "@/lib/auth";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface AuthFormProps {
   type: "login" | "register";
@@ -12,6 +13,7 @@ interface AuthFormProps {
 export default function AuthForm({ type }: AuthFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async () => {
     try {
@@ -20,7 +22,8 @@ export default function AuthForm({ type }: AuthFormProps) {
       } else {
         await registerWithEmail(email, password);
       }
-      // TODO: Redirect to /dashboard
+      
+      router.push("/dashboard");
     } catch (err: any) {
       alert(err.message);
     }
