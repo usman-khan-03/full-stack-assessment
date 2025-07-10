@@ -15,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Product AI App",
-  description: "Created by Usman Khan for Boxsy",
+  title: "aisle - AI-Powered Product Listing Platform",
+  description:
+    "Upload product images and let AI generate titles, descriptions, and keywords automatically. Built by Usman Khan for Boxsy.",
 };
 
 export default function RootLayout({

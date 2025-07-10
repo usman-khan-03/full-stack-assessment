@@ -5,6 +5,7 @@ import { db } from "@/lib/firebase";
 import { useUser } from "@/lib/useUser";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import ListingCard from "./ListingCard";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 
 export default function Dashboard() {
   const { user, loading } = useUser();
@@ -25,7 +26,10 @@ export default function Dashboard() {
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const items = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        const items = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
         setListings(items);
         setError("");
         setInitialLoading(false);
@@ -40,15 +44,58 @@ export default function Dashboard() {
     return () => unsubscribe();
   }, [user, loading]);
 
-  if (initialLoading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+  if (loading || initialLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+        <LoadingSpinner size="lg" />
+        <p className="text-gray-600">Loading your listings...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+        <div className="text-red-500 text-center">
+          <div className="text-4xl mb-4">⚠️</div>
+          <p className="text-lg font-medium">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="grid gap-4">
-      {listings.length === 0 ? (
-        <p>No listings yet.</p>
+    <div className="space-y-6">
+      {listings.filter(
+        (item) =>
+          item.image_url &&
+          typeof item.image_url === "string" &&
+          item.image_url.trim() !== ""
+      ).length === 0 ? (
+        <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+          <div className="text-gray-400 text-center">
+            <div className="text-6xl mb-4">📦</div>
+            <h3 className="text-xl font-medium text-gray-900 mb-2">
+              No listings yet
+            </h3>
+            <p className="text-gray-600">
+              Upload your first product to get started!
+            </p>
+          </div>
+        </div>
       ) : (
-        listings.map((item) => <ListingCard key={item.id} {...item} />)
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {listings
+            .filter(
+              (item) =>
+                item.image_url &&
+                typeof item.image_url === "string" &&
+                item.image_url.trim() !== ""
+            )
+            .map((item) => (
+              <ListingCard key={item.id} {...item} />
+            ))}
+        </div>
       )}
     </div>
   );

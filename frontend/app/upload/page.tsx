@@ -1,10 +1,12 @@
 import UploadForm from "@/components/UploadForm";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function UploadPage() {
   return (
-    <main className="p-4 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Upload Product</h1>
-      <UploadForm />
-    </main>
+    <ProtectedRoute>
+      <main className="p-4 max-w-2xl mx-auto">
+        <UploadForm />
+      </main>
+    </ProtectedRoute>
   );
 }
