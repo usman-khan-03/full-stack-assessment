@@ -13,7 +13,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",     # local frontend
-        "https://boxsy-frontend.vercel.app"  # live frontend
+        "https://aisle-front-end.vercel.app/"  # live frontend
     ],
     allow_credentials=True,
     allow_methods=["*"],
