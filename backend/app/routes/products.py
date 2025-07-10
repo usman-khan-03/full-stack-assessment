@@ -34,14 +34,6 @@ async def create_product(req: Request, x_api_key: str = Header(None)):
         **metadata,
     }
 
-    product = {
-        "id": "test123",  # Replace this with UUID later
-        "owner": "test-user-id",  # Replace with real user ID from auth
-        "image_url": image_url,
-        "status": "pending",
-        **metadata
-    }
-
-    firebase_service.save_product(product)
+    firebase_service.save_product(listing_data)
 
     return {"success": True, "listing": listing_data}
