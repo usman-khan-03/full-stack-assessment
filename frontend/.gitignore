@@ -43,4 +43,4 @@ next-env.d.ts
 
 # IDE/editor-specific
 .vscode/
-.idea/
+.idea/.env.local

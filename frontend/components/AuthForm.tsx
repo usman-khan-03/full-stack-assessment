@@ -22,7 +22,6 @@ export default function AuthForm({ type }: AuthFormProps) {
       } else {
         await registerWithEmail(email, password);
       }
-      
       router.push("/dashboard");
     } catch (err: any) {
       alert(err.message);
