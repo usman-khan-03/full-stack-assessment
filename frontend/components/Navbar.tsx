@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useUser } from "@/lib/useUser";
+import { useAuth } from "@/app/context/AuthContext";
 import { logout } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
-  const { user, loading } = useUser();
+  const { user, isAdmin, loading } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -32,22 +32,35 @@ export default function Navbar() {
                 {user ? (
                   <>
                     <Link href="/upload">
-                      <Button variant="outline">Upload</Button>
+                      <Button variant="outline" size="sm">
+                        Upload
+                      </Button>
                     </Link>
                     <Link href="/dashboard">
-                      <Button variant="outline">Dashboard</Button>
+                      <Button variant="outline" size="sm">
+                        Dashboard
+                      </Button>
                     </Link>
-                    <Button onClick={handleLogout} variant="ghost">
+                    {isAdmin && (
+                      <Link href="/admin">
+                        <Button variant="outline" size="sm">
+                          Admin
+                        </Button>
+                      </Link>
+                    )}
+                    <Button onClick={handleLogout} variant="ghost" size="sm">
                       Logout
                     </Button>
                   </>
                 ) : (
                   <>
                     <Link href="/auth/login">
-                      <Button variant="outline">Login</Button>
+                      <Button variant="outline" size="sm">
+                        Sign In
+                      </Button>
                     </Link>
                     <Link href="/auth/register">
-                      <Button>Register</Button>
+                      <Button size="sm">Sign Up</Button>
                     </Link>
                   </>
                 )}

@@ -14,11 +14,9 @@ import { useAuth } from "@/app/context/AuthContext";
 import AdminReviewCard from "@/components/AdminReviewCard";
 
 export default function AdminPage() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, isAdmin, loading: authLoading } = useAuth();
   const [listings, setListings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const isAdmin = user?.uid === process.env.NEXT_PUBLIC_ADMIN_UID;
 
   useEffect(() => {
     if (!isAdmin || authLoading) return;
